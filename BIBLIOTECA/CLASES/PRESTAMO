@@ -1,28 +1,29 @@
 from datetime import datetime, timedelta
-from auxiliares import constantes
-import detalle_libro
-import usuario
+from biblioteca import Biblioteca
 
-class Prestamo(detalle_libro, usuario):
-    def __init__(self, id_prestamo, isbn, id_usuario, fecha_prestamo, fecha_devolucion, fecha_devuelto, cantidad_solicitada):
-        detalle_libro.__init__(isbn)
-        usuario.__init__(id_usuario)
+class Constantes:
+    festivos = {datetime(2024, 1, 1), datetime(2024, 12, 25)}  # Agrega más días festivos según sea necesario
+
+class Prestamo:
+    def __init__(self, id_prestamo, isbn, id_usuario, fecha_prestamo=None, fecha_devolucion=None, cantidad_solicitada=1):
         self.id_prestamo = id_prestamo
-        self.fecha_prestamo = fecha_prestamo
+        self.isbn = isbn
+        self.id_usuario = id_usuario
+        self.fecha_prestamo = fecha_prestamo or datetime.now()
         self.fecha_devolucion = fecha_devolucion
-        self.fecha_devuelto = fecha_devuelto
         self.cantidad_solicitada = cantidad_solicitada
     
-    def sumar_dias_laborales(fecha_prestamo, dias_prestamo):
+    def sumar_dias_laborales(self, fecha_prestamo, dias_prestamo):
+        """Suma días laborales a una fecha, omitiendo fines de semana y festivos."""
         dias_agregados = 0  
         while dias_agregados < dias_prestamo:
             fecha_prestamo += timedelta(days=1)
-            if fecha_prestamo.weekday() < 5 and fecha_prestamo not in constantes.festivos:
+            if fecha_prestamo.weekday() < 5 and fecha_prestamo not in Constantes.festivos:
                 dias_agregados += 1
         return fecha_prestamo
         
     def calcular_fechas(self):
-        if(self.ejemplares_disponibles > 0):
-            if(self.ejemplares_disponibles > self.cantidad_solicitada):
-                self.fecha_prestamo = datetime.datetime.now()
-                self.fecha_devolucion = Prestamo.sumar_dias_laborales(self.fecha_prestamo, 5)
+        """Calcula las fechas de préstamo y devolución."""
+        if self.cantidad_solicitada > 0:
+            self.fecha_devolucion = self.sumar_dias_laborales(self.fecha_prestamo, 5)
+            

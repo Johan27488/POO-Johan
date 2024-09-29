@@ -1,16 +1,32 @@
+from libros import Libro
 
-class Biblioteca():
+class Biblioteca:
     def __init__(self, id_biblioteca, nombre_biblioteca, direccion_biblioteca, telefono_biblioteca):
         self.id_biblioteca = id_biblioteca
         self.nombre_biblioteca = nombre_biblioteca
         self.direccion_biblioteca = direccion_biblioteca
         self.telefono_biblioteca = telefono_biblioteca
+        self.lista_libros = []  # Inicializa una lista vacía de libros
     
-    def buscar_libro(identificacion):
-        pass
-    
-    def prestar_libro(self):
-        pass
-    
-    def devolver_libro(self):
-        pass
+    def buscar_libro(self, identificacion):
+        """Busca un libro en la biblioteca por su ISBN."""
+        for libro in self.lista_libros:
+            if libro.isbn == identificacion:
+                return libro
+        return None  # Si no se encuentra
+
+    def prestar_libro(self, isbn, id_usuario):
+        """Presta un libro a un usuario si hay ejemplares disponibles."""
+        libro = self.buscar_libro(isbn)
+        if libro and libro.ejemplares_disponibles > 0:
+            libro.ejemplares_disponibles -= 1
+            return True  # Préstamo exitoso
+        return False  # No se puede prestar
+
+    def devolver_libro(self, isbn):
+        """Devuelve un libro, incrementando el conteo de ejemplares disponibles."""
+        libro = self.buscar_libro(isbn)
+        if libro:
+            libro.ejemplares_disponibles += 1
+            return True  # Devolución exitosa
+        return False  # No se puede devolver
