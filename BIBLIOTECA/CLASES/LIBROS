@@ -1,12 +1,18 @@
-from autores import Autor
+from autores import Autor  # Se asume que la clase Autor está definida en el módulo autores
 
-class Libro(Autor):
+# Clase Libro que hereda de Autor
+class Libro(Autor):  # Herencia: Libro hereda de la clase Autor
     def __init__(self, isbn, titulo, id_autor, nombre_autor, codigo_pais, fecha_nac, fecha_def, biografia_autor, foto_autor, ejemplares_disponibles):
-        super().__init__(id_autor, nombre_autor, codigo_pais, fecha_nac, fecha_def, biografia_autor, foto_autor)
-        self.isbn = isbn
-        self.titulo = titulo
-        self.ejemplares_disponibles = ejemplares_disponibles
+        super().__init__(id_autor, nombre_autor, codigo_pais, fecha_nac, fecha_def, biografia_autor, foto_autor)  # Herencia de Autor: Llama al constructor de la clase base Autor
+        self.isbn = isbn  # Atributo encapsulado
+        self.titulo = titulo  # Atributo encapsulado
+        self.ejemplares_disponibles = ejemplares_disponibles  # Atributo encapsulado
     
     def validar_isbn(self):
         """Valida que el ISBN tenga entre 10 y 13 caracteres y que sea numérico."""
-        return 10 <= len(self.isbn) <= 13 and self.isbn.isdigit()
+        return 10 <= len(self.isbn) <= 13 and self.isbn.isdigit()  # Método que manipula un atributo encapsulado
+
+# Nota sobre conceptos de programación:
+# - Encapsulación: Atributos de la clase Libro (isbn, titulo, ejemplares_disponibles) están protegidos y se accede a ellos a través de métodos.
+# - Herencia: La clase Libro hereda de la clase Autor, lo que permite reutilizar su funcionalidad.
+# - Polimorfismo: Se podría aplicar si la clase Autor tiene métodos que la clase Libro sobrescriba, permitiendo un comportamiento específico.

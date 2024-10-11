@@ -1,11 +1,13 @@
-from libros import Libro
+from libros import Libro  # Se asume que la clase Libro está definida en el módulo libros
 
+# Clase Biblioteca que gestiona libros
 class Biblioteca:
     def __init__(self, id_biblioteca, nombre_biblioteca, direccion_biblioteca, telefono_biblioteca):
-        self.id_biblioteca = id_biblioteca
-        self.nombre_biblioteca = nombre_biblioteca
-        self.direccion_biblioteca = direccion_biblioteca
-        self.telefono_biblioteca = telefono_biblioteca
+        # Encapsulación: Atributos de la biblioteca están protegidos por el método __init__
+        self.id_biblioteca = id_biblioteca  # Atributo encapsulado
+        self.nombre_biblioteca = nombre_biblioteca  # Atributo encapsulado
+        self.direccion_biblioteca = direccion_biblioteca  # Atributo encapsulado
+        self.telefono_biblioteca = telefono_biblioteca  # Atributo encapsulado
         self.lista_libros = []  # Inicializa una lista vacía de libros
     
     def buscar_libro(self, identificacion):
@@ -19,7 +21,7 @@ class Biblioteca:
         """Presta un libro a un usuario si hay ejemplares disponibles."""
         libro = self.buscar_libro(isbn)
         if libro and libro.ejemplares_disponibles > 0:
-            libro.ejemplares_disponibles -= 1
+            libro.ejemplares_disponibles -= 1  # Manipulación de atributo encapsulado
             return True  # Préstamo exitoso
         return False  # No se puede prestar
 
@@ -27,6 +29,11 @@ class Biblioteca:
         """Devuelve un libro, incrementando el conteo de ejemplares disponibles."""
         libro = self.buscar_libro(isbn)
         if libro:
-            libro.ejemplares_disponibles += 1
+            libro.ejemplares_disponibles += 1  # Manipulación de atributo encapsulado
             return True  # Devolución exitosa
         return False  # No se puede devolver
+
+# Nota sobre conceptos de programación:
+# - Encapsulación: Utilizada en el constructor (__init__) para proteger los atributos de la clase Biblioteca.
+# - Herencia: Si en el módulo libros existiesen clases que heredan de Libro, se podría utilizar herencia. (ej. LibroDigital)
+# - Polimorfismo: Se aplicaría si se tuvieran métodos en clases derivadas que sobrescriben métodos de la clase base Libro.

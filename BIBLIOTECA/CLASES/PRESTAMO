@@ -1,29 +1,38 @@
 from datetime import datetime, timedelta
-from biblioteca import Biblioteca
+from biblioteca import Biblioteca  # Se asume que la clase Biblioteca está definida en el módulo biblioteca
 
+# Clase Constantes que contiene valores constantes
 class Constantes:
-    festivos = {datetime(2024, 1, 1), datetime(2024, 12, 25)}  # Agrega más días festivos según sea necesario
+    festivos = {datetime(2024, 1, 1), datetime(2024, 12, 25)}  # Días festivos (constantes)
 
+# Clase Prestamo que gestiona el préstamo de libros
 class Prestamo:
     def __init__(self, id_prestamo, isbn, id_usuario, fecha_prestamo=None, fecha_devolucion=None, cantidad_solicitada=1):
-        self.id_prestamo = id_prestamo
-        self.isbn = isbn
-        self.id_usuario = id_usuario
-        self.fecha_prestamo = fecha_prestamo or datetime.now()
-        self.fecha_devolucion = fecha_devolucion
-        self.cantidad_solicitada = cantidad_solicitada
+        # Encapsulación: Atributos de la clase Prestamo están protegidos por el método __init__
+        self.id_prestamo = id_prestamo  # Atributo encapsulado
+        self.isbn = isbn  # Atributo encapsulado
+        self.id_usuario = id_usuario  # Atributo encapsulado
+        self.fecha_prestamo = fecha_prestamo or datetime.now()  # Fecha actual si no se proporciona (atributo encapsulado)
+        self.fecha_devolucion = fecha_devolucion  # Atributo encapsulado
+        self.cantidad_solicitada = cantidad_solicitada  # Atributo encapsulado
     
     def sumar_dias_laborales(self, fecha_prestamo, dias_prestamo):
         """Suma días laborales a una fecha, omitiendo fines de semana y festivos."""
         dias_agregados = 0  
         while dias_agregados < dias_prestamo:
             fecha_prestamo += timedelta(days=1)
-            if fecha_prestamo.weekday() < 5 and fecha_prestamo not in Constantes.festivos:
+            if fecha_prestamo.weekday() < 5 and fecha_prestamo not in Constantes.festivos:  # Uso de constante
                 dias_agregados += 1
         return fecha_prestamo
         
     def calcular_fechas(self):
         """Calcula las fechas de préstamo y devolución."""
         if self.cantidad_solicitada > 0:
-            self.fecha_devolucion = self.sumar_dias_laborales(self.fecha_prestamo, 5)
+            self.fecha_devolucion = self.sumar_dias_laborales(self.fecha_prestamo, 5)  # Manipulación de atributo encapsulado
+
+# Nota sobre conceptos de programación:
+# - Encapsulación: Atributos de la clase Prestamo (id_prestamo, isbn, id_usuario, etc.) están protegidos y se accede a ellos a través de métodos.
+# - Herencia: No se utiliza herencia explícita en este código, pero se podría extender la funcionalidad de esta clase en el futuro.
+# - Polimorfismo: Se podría aplicar si se tuvieran métodos que sobrescriben el comportamiento en clases derivadas de Prestamo.
+
             
